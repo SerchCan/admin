@@ -1,5 +1,5 @@
 <?php
-	include_once "Conection.php";
+	include_once "../Conection/Conection.php";
     class User{
 	    public $id;		
 	    public $name;
