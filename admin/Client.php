@@ -7,16 +7,15 @@
         
         public function createUser($name,$mail,$user,$password,$address,$genre,$rfc,$curp,$idPais){
             $con = new PDORepository;
-            $con-> queryList("INSERT INTO Usuario(nombre,correo,username,password,estatus,fecha_alta,direccion,sexo,rfc,curp) 
-                              VALUES(:nombre, :email, :user, :pass, ACTIVO, CURRENT_TIMESTAMP(), :address, :genre, :rfc, :curp, :pais)",
-                              array('nombre'=>$name, 'email'=>$mail, 'user'=>$user, 'pass'=>$password, 'address'=>$address, 'genre'=>$genre, 'rfc'=>$rfc, 'curp'=>$curp, 'pais'=>$idPais));
-            if(!$con){
+            $result = $con-> queryList("INSERT INTO Usuario(nombre,correo,username,password,estatus,fecha_alta,direccion,sexo,rfc,curp) 
+                                        VALUES(:nombre, :email, :user, :pass, ACTIVO, CURRENT_TIMESTAMP(), :address, :genre, :rfc, :curp, :pais)",
+                                        array('nombre'=>$name, 'email'=>$mail, 'user'=>$user, 'pass'=>$password, 'address'=>$address, 'genre'=>$genre, 'rfc'=>$rfc, 'curp'=>$curp, 'pais'=>$idPais));
+            if(!$result){
                 echo "Ha ocurrido un error al crear usuario.";
             }
         }
         public function fillUser($id){
             $con = new PDORepository;  
-            //Example use: $con->(QUERY, ARGS)-> 'fetchAll()' or 'fetch()'.  you decide
             $userData = $con-> queryList("SELECT * FROM Usuario WHERE id_usuario=:id", array('id'=>$id))
                             -> fetch(PDO::FETCH_ASSOC);
             if($userData){
