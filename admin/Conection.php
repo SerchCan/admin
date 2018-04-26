@@ -13,6 +13,12 @@
             $connection = new PDO("mysql:dbname=$db;host=$host", $username, $password);
             return $connection;
         }
+        /**
+         * Query list
+         * @param SQL Query
+         * @param array Arguments passed to query
+         * @return Result FetchIt as you need (fetch all or single record).
+         */
         public function queryList($sql, $args){
             $connection = $this->getConnection();
             $stmt = $connection->prepare($sql);
