@@ -5,7 +5,13 @@
     class Client extends User{
 	  private $accountNumber;
       private $cardNumber;
+      public function __construct(){
+          $con = new PDORepository;  
+          //Example use: QUERY, ARGS -> fetchAll or fetch single record.  you decide
+          //echo $con->queryList("SELECT * FROM ventas",null)->fetchAll());
+          //$con->queryList("SELECT * FROM Usuarios where  ")
 
+      }
 	  public function getName(){
           return $this->name;
       }
@@ -40,4 +46,6 @@
           return  $this->CURP;
       }
     }
+
+    $client= new Client();
 ?>
