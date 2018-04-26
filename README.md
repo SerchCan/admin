@@ -2,6 +2,8 @@
 
 Añadir su carpeta al proyecto acorde al dpto. que les haya tocado (administración, cliente, etc).
 
+Hacer lo anterior en la raíz fuera de la carpeta ./admin 
+
 No olviden pull antes del push.
 
 La conexión a la base de datos sera mediante la clase PDORepository [(La encuentran en ./conection/conection.php)]
