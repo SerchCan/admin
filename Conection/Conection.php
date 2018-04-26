@@ -3,7 +3,7 @@
         const USERNAME="root";
         const PASSWORD="";
         const HOST="localhost";
-        const DB="store";
+        const DB="yarelyDB";
 
         private function getConnection(){
             $username = self::USERNAME;
