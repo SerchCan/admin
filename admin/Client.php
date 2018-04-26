@@ -4,24 +4,34 @@
     class Client extends User{
 	    private $accountNumber;
         private $cardNumber;
-        public function __construct($id){
+        
+        public function createUser($name,$mail,$user,$password,$address,$genre,$rfc,$curp,$idPais){
+            $con = new PDORepository;
+            $con-> queryList("INSERT INTO Usuario(nombre,correo,username,password,estatus,fecha_alta,direccion,sexo,rfc,curp) 
+                              VALUES(:nombre, :email, :user, :pass, ACTIVO, CURRENT_TIMESTAMP(), :address, :genre, :rfc, :curp, :pais)",
+                              array('nombre'=>$name, 'email'=>$mail, 'user'=>$user, 'pass'=>$password, 'address'=>$address, 'genre'=>$genre, 'rfc'=>$rfc, 'curp'=>$curp, 'pais'=>$idPais));
+            if(!$con){
+                echo "Ha ocurrido un error al crear usuario.";
+            }
+        }
+        public function fillUser($id){
             $con = new PDORepository;  
-            //Example use: $con->(QUERY, ARGS)-> 'fetchAll()' or 'fetch()' single record.  you decide
-            $userData = $con-> queryList("SELECT * FROM Usuario where id_usuario=:id", array("id"=>$id))
+            //Example use: $con->(QUERY, ARGS)-> 'fetchAll()' or 'fetch()'.  you decide
+            $userData = $con-> queryList("SELECT * FROM Usuario WHERE id_usuario=:id", array('id'=>$id))
                             -> fetch(PDO::FETCH_ASSOC);
             if($userData){
-                $id=$userData['id_usuario'];
-                $name=$userData['nombre'];
-                $email=$userData['correo'];
-                $user=$userData['username'];
-                $password=$userData['password'];
-                $status=$userData['estatus'];
-                $alta=$userData['fecha_alta'];
-                $address=$userData['direccion'];
-                $genre=$userData['sexo'];
-                $rfc=$userData['rfc'];
-                $curp=$userData['curp'];
-                $this->setUser($id,$name,$email,$user,$password,$status,$alta,$address,$genre,$rfc,$curp);
+                $id = $userData['id_usuario'];
+                $name = $userData['nombre'];
+                $email = $userData['correo'];
+                $user = $userData['username'];
+                $password = $userData['password'];
+                $status = $userData['estatus'];
+                $alta = $userData['fecha_alta'];
+                $address = $userData['direccion'];
+                $genre = $userData['sexo'];
+                $rfc = $userData['rfc'];
+                $curp = $userData['curp'];
+                $this-> setUser($id,$name,$email,$user,$password,$status,$alta,$address,$genre,$rfc,$curp);
             }
             else{
                 echo "No se encontro el id de usuario en el sistema.";
