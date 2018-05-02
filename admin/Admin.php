@@ -56,5 +56,4 @@
             }
         }
     }
-    $u=new Admin("sergiopumas","Password");
 ?>

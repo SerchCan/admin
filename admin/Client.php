@@ -6,8 +6,13 @@
         private $cardNumber;
         public function __construct($user,$pass){
             $res = $this->Login($user,$pass);
-            $id = $res['id_usuario'];
-            $this->fillUser($id);
+            if($res){
+                $id = $res['id_usuario'];
+                $this->fillUser($id);
+            }
+            else{
+                echo "Verifique sus credenciales";
+            }
         }
         public function fillUser($id){
             $con = new PDORepository;  
