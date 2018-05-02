@@ -33,7 +33,11 @@
                 echo "No tiene permisos para esta operación";
             }
         }
-
+        public function assignCard(){
+            if($this->canOperate){
+                
+            }
+        }
         public function getLastInsert(){
             if($this->canOperate){
                 $con = new PDORepository;
