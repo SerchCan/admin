@@ -14,9 +14,9 @@
 		protected $alta;
 		public function Login($user,$password){
 			$con = new PDORepository;
-			$res=$con->queryList("SELECT COUNT(id_usuario) AS Exist from usuario WHERE username=:user AND BINARY usuario.password=:pass",
+			$res=$con->queryList("SELECT id_usuario,tipo from usuario WHERE username=:user AND BINARY usuario.password=:pass",
 			array('user'=>$user,'pass'=>$password))->fetch(PDO::FETCH_ASSOC);
-			return $res['Exist']==1 ? True : False;
+			return $res ? $res : False;
 		}
 		public function setUser($id, $name, $email, $user, $password, $status, $alta, $address, $genre, $rfc, $curp){
 			$this->id = $id;
@@ -65,4 +65,5 @@
     		return $this->alta;
 		}
 	}
+
 ?>
