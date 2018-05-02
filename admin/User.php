@@ -12,6 +12,12 @@
 		public $CURP;
 		protected $password;
 		protected $alta;
+		public function Login($user,$password){
+			$con = new PDORepository;
+			$res=$con->queryList("SELECT COUNT(id_usuario) AS Exist from usuario WHERE username=:user AND BINARY usuario.password=:pass",
+			array('user'=>$user,'pass'=>$password))->fetch(PDO::FETCH_ASSOC);
+			return $res['Exist']==1 ? True : False;
+		}
 		public function setUser($id, $name, $email, $user, $password, $status, $alta, $address, $genre, $rfc, $curp){
 			$this->id = $id;
 			$this->name = $name;
