@@ -4,9 +4,12 @@
         private $canOperate=true;
         public function __construct($user,$pass){
             $res=$this->Login($user,$pass);
+            
             if(!$res || $res['tipo']!="ADMINISTRADOR"){
                 echo "No tiene permiso de administrador";
                 $this->canOperate=false;
+            }else{
+                $this->id=$res['id_usuario'];
             }
             return;
         }
