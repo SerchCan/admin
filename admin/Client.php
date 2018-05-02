@@ -4,6 +4,11 @@
     class Client extends User{
 	    private $accountNumber;
         private $cardNumber;
+        public function __construct($user,$pass){
+            $res = $this->Login($user,$pass);
+            $id = $res['id_usuario'];
+            $this->fillUser($id);
+        }
         public function fillUser($id){
             $con = new PDORepository;  
             $userData = $con-> queryList("SELECT * FROM Usuario WHERE id_usuario=:id", array('id'=>$id))
