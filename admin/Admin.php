@@ -12,22 +12,24 @@
                 echo "No tiene permiso de administrador";
                 $this->canOperate=false;
             }else{
-                $this->id=$res['id_usuario'];
+                $id = $res['id_usuario'];
+                $this->fillUser($id);
             }
             return;
         }
         //Create a new user (Client, executive or Admin)
-        public function createUser($name, $mail, $user, $password, $address, $genre, $rfc, $curp, $userAlta, $idPais, $balance, $detalles, $tipo,$pin){
+        public function createUser($name, $mail, $user, $password, $address, $genre, $rfc, $curp, $idPais, $balance, $detalles, $tipo,$pin){
             if($this->canOperate==true)
             {  
                 $con = new PDORepository;
                 $tipo=strtoupper($tipo);
+                $genre=strtoupper($genre);
                 if($tipo=="CLIENTE"){
                     if($pin!=null || ($pin>=1000 && $pin<=9999))
                     {
                         $Createuser = $con-> queryList('INSERT INTO usuario(nombre, correo, username, password, estatus, tipo, fecha_alta, direccion, sexo, rfc, curp, usuario_alta, id_pais) 
                             VALUES(:nombre, :email, :user, :pass, "ACTIVO", :tipo, CURRENT_TIMESTAMP(), :address, :genre, :rfc, :curp, :userAlta, :pais)',
-                            array('nombre'=>$name, 'email'=>$mail, 'user'=>$user, 'pass'=>$password, 'tipo'=>$tipo, 'address'=>$address, 'genre'=>$genre, 'rfc'=>$rfc, 'curp'=>$curp, 'userAlta'=>$userAlta,'pais'=>$idPais));
+                            array('nombre'=>$name, 'email'=>$mail, 'user'=>$user, 'pass'=>$password, 'tipo'=>$tipo, 'address'=>$address, 'genre'=>$genre, 'rfc'=>$rfc, 'curp'=>$curp, 'userAlta'=>$this->id,'pais'=>$idPais));
                    
                         $id = $this->getLastInsert();
                         $accountNumber = $this->generateAccount($password,$curp,$idPais);

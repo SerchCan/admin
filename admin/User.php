@@ -19,6 +19,28 @@
 			array('user'=>$user,'pass'=>$password))->fetch(PDO::FETCH_ASSOC);
 			return $res ? $res : False;
 		}
+		public function fillUser($id){
+            $con = new PDORepository;  
+            $userData = $con-> queryList("SELECT * FROM Usuario WHERE id_usuario=:id", array('id'=>$id))
+                            -> fetch(PDO::FETCH_ASSOC);
+            if($userData){
+                $id = $userData['id_usuario'];
+                $name = $userData['nombre'];
+                $email = $userData['correo'];
+                $user = $userData['username'];
+                $password = $userData['password'];
+                $status = $userData['estatus'];
+                $alta = $userData['fecha_alta'];
+                $address = $userData['direccion'];
+                $genre = $userData['sexo'];
+                $rfc = $userData['rfc'];
+                $curp = $userData['curp'];
+                $this->setUser($id,$name,$email,$user,$password,$status,$alta,$address,$genre,$rfc,$curp);
+            }
+            else{
+                echo "No se encontro el id de usuario en el sistema.";
+            }
+        }
 		//Set data of the user.
 		public function setUser($id, $name, $email, $user, $password, $status, $alta, $address, $genre, $rfc, $curp){
 			$this->id = $id;
