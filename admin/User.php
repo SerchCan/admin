@@ -12,12 +12,14 @@
 		public $CURP;
 		protected $password;
 		protected $alta;
+		//This function return id and type of user if Login success, false otherwise
 		public function Login($user,$password){
 			$con = new PDORepository;
 			$res=$con->queryList("SELECT id_usuario,tipo from usuario WHERE username=:user AND BINARY usuario.password=:pass",
 			array('user'=>$user,'pass'=>$password))->fetch(PDO::FETCH_ASSOC);
 			return $res ? $res : False;
 		}
+		//Set data of the user.
 		public function setUser($id, $name, $email, $user, $password, $status, $alta, $address, $genre, $rfc, $curp){
 			$this->id = $id;
 			$this->name = $name;
@@ -31,6 +33,7 @@
 			$this->CURP = $curp;
 			$this->password = $password;
 		}
+		//getters
 		public function getId(){
 			return $this->id;
 		}
