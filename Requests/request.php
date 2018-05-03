@@ -1,4 +1,7 @@
-<?php    
+<?php  
+    include_once "../admin/User.php";
+    include_once "../admin/Client.php";
+    include_once "../admin/Admin.php";
     /**
      * How to program a request.php
      * if (js request POST({user:user,password:pass});
