@@ -1,7 +1,7 @@
 <?php
 
     //include Client library
-    include_once "../admin/Client.php";
+    include_once "../Includes/Client.php";
     //Client can only get his own data.
 
     //you can use a get/post method for user and pass variables.

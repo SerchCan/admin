@@ -1,6 +1,6 @@
 <?php
     //include * libraries
-    include_once "../admin/include.php";
+    include_once "../Includes/include.php";
 
     // Get User and Password of an admin
     $user="sergiopumas"; 

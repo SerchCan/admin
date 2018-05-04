@@ -1,5 +1,5 @@
 <?php  
-    include_once "../admin/Include.php";
+    include_once "../Includes/Include.php";
     /**
      * How to program a request.php
      * if (js request POST({user:user,password:pass});
