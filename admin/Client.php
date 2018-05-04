@@ -6,14 +6,14 @@
         public function __construct($user,$pass){
             $this->card=new CreditCard;
             $res = $this->Login($user,$pass);
-            if($res){
+            if($res && $res['tipo']=="CLIENTE"){
                 $id = $res['id_usuario'];
-                
                 $this->fillUser($id);
                 $this->card->fill($this->getAccountNumber());
+                $this->isLogged=true;
             }
             else{
-                echo "Verifique sus credenciales";
+                return "Verifique sus credenciales";
             }
         }
         public function fillUser($id){
@@ -36,7 +36,7 @@
                 $this->setClient();
             }
             else{
-                echo "No se encontro el id de usuario en el sistema.";
+                return "No se encontro el id de usuario en el sistema.";
             }
         }
         public function setClient(){

@@ -9,6 +9,7 @@
             }else{
                 $id = $res['id_usuario'];
                 $this->fillUser($id);
+                $this->isLogged=true;
             }
             return;
         }
@@ -35,11 +36,11 @@
                     $this->assignCard($pin,$accountNumber);
                 }
                 else{
-                    echo "El cliente requiere de un pin de 4 digitos.";
+                    return "El cliente requiere de un pin de 4 digitos.";
                 }
             }
             else{
-                echo "No tiene permisos para esta operación";
+                return "No tiene permisos para esta operación";
             }
         }
         // Edit user Send the Field in DB and the Value.
@@ -54,9 +55,13 @@
                     if($newPass!=null){
                         $con->queryList("UPDATE usuario SET password=:pass WHERE id_usuario=:id",array('pass'=>$newPass, 'id'=>$id));
                     }
-                }else{
-                    echo "Información de usuario no encontrada";
                 }
+                else{
+                    return "Información de usuario no encontrada";
+                }
+            }
+            else{
+                return "No tiene permisos para esta operación";
             }
         }
         // Assign card to a user
@@ -88,7 +93,7 @@
                 return $accountNumber;
             }
             else{
-                echo "No tiene permisos para esta operación";
+                return "No tiene permisos para esta operación";
             }
         }
     }

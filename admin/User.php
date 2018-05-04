@@ -1,5 +1,6 @@
 <?php
 	class User{
+		public $isLogged=false;
 		public $id;		
 		public $name;
 		public $user;
@@ -37,7 +38,7 @@
                 $this->setUser($id,$name,$email,$user,$password,$status,$alta,$address,$genre,$rfc,$curp);
             }
             else{
-                echo "No se encontro el id de usuario en el sistema.";
+                return "No se encontro el id de usuario en el sistema.";
             }
         }
 		//Set data of the user.
