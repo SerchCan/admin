@@ -17,9 +17,6 @@
 			$con = new PDORepository;
 			$res=$con->queryList("SELECT id_usuario,tipo from usuario WHERE username=:user AND BINARY usuario.password=:pass",
 			array('user'=>$user,'pass'=>$password))->fetch(PDO::FETCH_ASSOC);
-			if(is_array($res)) {
-				$this->isLogged=true;
-			}
 			return $res ? $res : False;
 		}
 		public function fillUser($id){

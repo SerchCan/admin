@@ -9,6 +9,7 @@
             }else{
                 $id = $res['id_usuario'];
                 $this->fillUser($id);
+                $this->isLogged=true;
             }
             return;
         }

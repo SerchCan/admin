@@ -6,11 +6,11 @@
         public function __construct($user,$pass){
             $this->card=new CreditCard;
             $res = $this->Login($user,$pass);
-            if($res){
+            if($res && $res['tipo']=="CLIENTE"){
                 $id = $res['id_usuario'];
-                
                 $this->fillUser($id);
                 $this->card->fill($this->getAccountNumber());
+                $this->isLogged=true;
             }
             else{
                 return "Verifique sus credenciales";
