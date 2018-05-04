@@ -6,6 +6,7 @@
     $user="sergiopumas"; 
     $pass="Password"; 
     $a = new Admin($user,$pass);
+    
     // GET: name,mail,user,pass,address,genre,RFC,CURP,IdPais,Balance,Details,Type(cliente,ejecutivo,administrador),PIN
     $name="SomeName";
     $mail="asd@gmail.com";
@@ -21,15 +22,15 @@
     $tipoCuenta='AHORROS'; //(Ahorros,Cheques)
     $pin=1234; //4-digit number
     
-    // If u want to create a Client
+    // If u want to create a Client THIS WORKS ON EXECUTIVE CLASS TOO
     /*
         $a->createClient($name,$mail,$USER,$PASS,$address,$genre,$RFC,$CURP,$idPais,$balance,$Details,$tipoCuenta,$pin);
     */
-    // If u want to create a Executive
+    // If u want to create a Executive ADMIN ONLY
     /*
         $a->createExecutive($name,$mail,$USER,$PASS,$address,$genre,$RFC,$CURP,$idPais,$finContrato,$Sueldo);
     */
-    // If u want to create another Admin
+    // If u want to create another Admin ADMIN ONLY
     /*
         $a->createAdmin($name,$mail,$USER,$PASS,$address,$genre,$RFC,$CURP,$idPais,$finContrato,$Sueldo);
     */

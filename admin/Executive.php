@@ -1,6 +1,6 @@
 <?php
     class Executive extends User{
-        private $isExecutive=True;
+        protected $isExecutive=True;
         public function __construct($user,$pass){
             $res=$this->Login($user,$pass);
             if(!$res || $res['tipo']!="EJECUTIVO"){
@@ -19,7 +19,7 @@
                 if($pin!=null || ($pin>=1000 && $pin<=9999))
                 {
                     $con = new PDORepository;
-                    $tipo=strtoupper($tipo);
+                    $tipoCuenta=strtoupper($tipoCuenta);
                     $genre=strtoupper($genre);
                     $Createuser = $con
                         -> queryList('INSERT INTO usuario(nombre, correo, username, password, estatus, tipo, fecha_alta, direccion, sexo, rfc, curp, usuario_alta, id_pais) 
@@ -42,9 +42,10 @@
                 echo "No tiene permisos para esta operación";
             }
         }
+        
         // Assign card to a user
         public function assignCard($pin,$account){
-            if($this->isAdmin){
+            if($this->isExecutive){
                 $card= new CreditCard;
                 $card->generate($pin);
                 $card->addToUser($account);
@@ -52,7 +53,7 @@
         }
         // Get last inserted user
         public function getLastInsert(){
-            if($this->isAdmin){
+            if($this->isExecutive){
                 $con = new PDORepository;
                 $query= $con
                     -> queryList("SELECT id_usuario FROM usuario ORDER BY id_usuario DESC LIMIT 1",null)
@@ -65,7 +66,7 @@
         }
         // Generate account number
         public function generateAccount($password,$curp,$idPais){
-            if($this->isAdmin){
+            if($this->isExecutive){
                 //                  country           EP(EdisonPay) CURP      PASSWORD
                 $accountNumber = sprintf("%02d", $idPais)."6980".ord($curp).ord($password);
                 return $accountNumber;

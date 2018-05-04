@@ -3,12 +3,12 @@
         //if user is not admin this variable changes.
         private $isAdmin=true;
         //At creation of admin we should Login
-
         public function __construct($user,$pass){
             $res=$this->Login($user,$pass);
             if(!$res || $res['tipo']!="ADMINISTRADOR"){
                 echo "No tiene permiso de administrador";
                 $this->isAdmin=false;
+                $this->isExecutive=false;
             }else{
                 $id = $res['id_usuario'];
                 $this->fillUser($id);
