@@ -10,7 +10,7 @@
                 $_SESSION['pass']=$_POST['password'];
                 $_SESSION['type']='CLIENTE';
                 $_SESSION['start']=time();
-                $_SESSION['expire']=$_SESSION['start']+(1);//0*60);
+                $_SESSION['expire']=$_SESSION['start']+(10*60);
                 echo "Sesion iniciada";
             }
             else{
