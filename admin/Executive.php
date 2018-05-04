@@ -35,7 +35,7 @@
                     $this->assignCard($pin,$accountNumber);
                 }
                 else{
-                    echo "New client requires a 4-digit pin";
+                    echo "El cliente requiere de un pin de 4 digitos.";
                 }
             }
             else{
