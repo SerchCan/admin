@@ -53,6 +53,14 @@
                 return "No tiene permisos para esta operación";
             }
         }
-       
+        public function listOfExecutives(){
+            if($this->isAdmin){
+                $con= new PDORepository;
+                $List= $con 
+                    -> queryList("SELECT * FROM usuario WHERE tipo=EJECUTIVO")
+                    -> fetchAll(PDO::FETCH_ASSOC);
+                return json_encode($List);
+            }
+        }
     }
 ?>
