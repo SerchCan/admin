@@ -57,7 +57,7 @@
             if($this->isAdmin){
                 $con= new PDORepository;
                 $List= $con 
-                    -> queryList("SELECT * FROM usuario WHERE tipo='EJECUTIVO'",null)
+                    -> queryList("SELECT * FROM usuario WHERE tipo='EJECUTIVO' and estatus='ACTIVO'",null)
                     -> fetchAll(PDO::FETCH_ASSOC);
                 return json_encode($List);
             }
