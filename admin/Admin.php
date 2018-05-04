@@ -1,6 +1,4 @@
 <?php
-    include_once "User.php";
-    include_once "CC.php";
     class Admin extends User{
         //if user is not admin this variable changes.
         private $canOperate=true;
@@ -17,31 +15,31 @@
             }
             return;
         }
+        public function editUser($username,$password){
+            
+        }
         //Create a new user (Client, executive or Admin)
-        public function createUser($name, $mail, $user, $password, $address, $genre, $rfc, $curp, $idPais, $balance, $detalles, $tipo,$pin){
+        public function createClient($name, $mail, $user, $password, $address, $genre, $rfc, $curp, $idPais, $balance, $detalles,$tipoCuenta,$pin){
             if($this->canOperate==true)
             {  
                 $con = new PDORepository;
                 $tipo=strtoupper($tipo);
                 $genre=strtoupper($genre);
-                if($tipo=="CLIENTE"){
-                    if($pin!=null || ($pin>=1000 && $pin<=9999))
-                    {
-                        $Createuser = $con-> queryList('INSERT INTO usuario(nombre, correo, username, password, estatus, tipo, fecha_alta, direccion, sexo, rfc, curp, usuario_alta, id_pais) 
-                            VALUES(:nombre, :email, :user, :pass, "ACTIVO", :tipo, CURRENT_TIMESTAMP(), :address, :genre, :rfc, :curp, :userAlta, :pais)',
-                            array('nombre'=>$name, 'email'=>$mail, 'user'=>$user, 'pass'=>$password, 'tipo'=>$tipo, 'address'=>$address, 'genre'=>$genre, 'rfc'=>$rfc, 'curp'=>$curp, 'userAlta'=>$this->id,'pais'=>$idPais));
-                   
-                        $id = $this->getLastInsert();
-                        $accountNumber = $this->generateAccount($password,$curp,$idPais);
-                        $CreateAccount=$con->queryList('INSERT INTO cuenta(numero,balance,detalles,fecha_alta,estatus,tipo,id_usuario)
-                            VALUES (:acnumber,:balance,:details, CURRENT_TIMESTAMP(), "ACTIVA", :tipo, :id)',
-                            array('acnumber'=>$accountNumber,'balance'=>$balance,'details'=>$detalles,'tipo'=>$tipo,'id'=>$id));       
-                        $this->assignCard($pin,$accountNumber);
-                    }
-                    else{
-                        echo "New client requires a 4-digit pin";
-                    }
-
+                if($pin!=null || ($pin>=1000 && $pin<=9999))
+                {
+                    $Createuser = $con-> queryList('INSERT INTO usuario(nombre, correo, username, password, estatus, tipo, fecha_alta, direccion, sexo, rfc, curp, usuario_alta, id_pais) 
+                        VALUES(:nombre, :email, :user, :pass, "ACTIVO", "CLIENTE", CURRENT_TIMESTAMP(), :address, :genre, :rfc, :curp, :userAlta, :pais)',
+                        array('nombre'=>$name, 'email'=>$mail, 'user'=>$user, 'pass'=>$password, 'address'=>$address, 'genre'=>$genre, 'rfc'=>$rfc, 'curp'=>$curp, 'userAlta'=>$this->id,'pais'=>$idPais));
+                
+                    $id = $this->getLastInsert();
+                    $accountNumber = $this->generateAccount($password,$curp,$idPais);
+                    $CreateAccount=$con->queryList('INSERT INTO cuenta(numero,balance,detalles,fecha_alta,estatus,tipo,id_usuario)
+                        VALUES (:acnumber,:balance,:details, CURRENT_TIMESTAMP(), "ACTIVA", :tipo, :id)',
+                        array('acnumber'=>$accountNumber,'balance'=>$balance,'details'=>$detalles,'tipo'=>$tipoCuenta,'id'=>$id));       
+                    $this->assignCard($pin,$accountNumber);
+                }
+                else{
+                    echo "New client requires a 4-digit pin";
                 }
             }
             else{

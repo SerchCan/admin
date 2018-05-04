@@ -1,6 +1,4 @@
 <?php
-    include_once "User.php";
-    include_once "CC.php";
     // Client can only get his own data but cannot set it.
     class Client extends User{
 	    private $accountNumber;

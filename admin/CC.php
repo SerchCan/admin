@@ -1,5 +1,4 @@
 <?php
-    include_once "../vendor/autoload.php";
     class CreditCard{
         private $number;
         private $cvc;
