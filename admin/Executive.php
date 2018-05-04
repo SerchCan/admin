@@ -42,7 +42,23 @@
                 echo "No tiene permisos para esta operación";
             }
         }
-        
+        // Edit user Send the Field in DB and the Value.
+        public function editUser($user,$password,$mail,$address,$newPass=null){
+            if($this->isExecutive){    
+                $c=new Client($user,$password);
+                $id= $c->getId();
+                if($id){
+                    $con= new PDORepository;
+                    $con->queryList("UPDATE usuario SET correo= :mail, direccion= :address WHERE id_usuario=:id",
+                    array('mail'=>$mail,'address'=>$address,'id'=>$id));
+                    if($newPass!=null){
+                        $con->queryList("UPDATE usuario SET password=:pass WHERE id_usuario=:id",array('pass'=>$newPass, 'id'=>$id));
+                    }
+                }else{
+                    echo "Información de usuario no encontrada";
+                }
+            }
+        }
         // Assign card to a user
         public function assignCard($pin,$account){
             if($this->isExecutive){
