@@ -6,9 +6,9 @@
         public function __construct($user,$pass){
             $res=$this->Login($user,$pass);
             if(!$res || $res['tipo']!="ADMINISTRADOR"){
-                echo "No tiene permiso de administrador";
                 $this->isAdmin=false;
                 $this->isExecutive=false;
+                return "No tiene permiso de administrador";
             }else{
                 $id = $res['id_usuario'];
                 $this->fillUser($id);
@@ -31,7 +31,7 @@
                     
             }
             else{
-                echo "No tiene permisos para esta operación";
+                return "No tiene permisos para esta operación";
             }
         }
         // Create new Admin
@@ -47,6 +47,9 @@
                     -> queryList('INSERT INTO empleado(contrato_fecha_inicio,contrato_fecha_fin,sueldo,id_usuario)
                                     VALUES(CURRENT_TIMESTAMP(),:Final,:Sueldo,:id)',
                         array('Final'=>$fin,'Sueldo'=>$sueldo,'id'=>$id));
+            }
+            else{
+                return "No tiene permisos para esta operación";
             }
         }
        

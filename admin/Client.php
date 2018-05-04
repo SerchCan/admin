@@ -13,7 +13,7 @@
                 $this->card->fill($this->getAccountNumber());
             }
             else{
-                echo "Verifique sus credenciales";
+                return "Verifique sus credenciales";
             }
         }
         public function fillUser($id){
@@ -36,7 +36,7 @@
                 $this->setClient();
             }
             else{
-                echo "No se encontro el id de usuario en el sistema.";
+                return "No se encontro el id de usuario en el sistema.";
             }
         }
         public function setClient(){

@@ -1,5 +1,6 @@
 <?php
 	class User{
+		public $isLogged=false;
 		public $id;		
 		public $name;
 		public $user;
@@ -16,6 +17,9 @@
 			$con = new PDORepository;
 			$res=$con->queryList("SELECT id_usuario,tipo from usuario WHERE username=:user AND BINARY usuario.password=:pass",
 			array('user'=>$user,'pass'=>$password))->fetch(PDO::FETCH_ASSOC);
+			if(is_array($res)) {
+				$this->isLogged=true;
+			}
 			return $res ? $res : False;
 		}
 		public function fillUser($id){
@@ -37,7 +41,7 @@
                 $this->setUser($id,$name,$email,$user,$password,$status,$alta,$address,$genre,$rfc,$curp);
             }
             else{
-                echo "No se encontro el id de usuario en el sistema.";
+                return "No se encontro el id de usuario en el sistema.";
             }
         }
 		//Set data of the user.
