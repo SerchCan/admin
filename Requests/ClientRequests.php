@@ -1,10 +1,16 @@
 <?php
-    // REQUEST FOR CLIENTS
-
     // send op VIA GET
     // rest of data is sended automatically if user is logged on server;
     include_once "../Includes/Include.php";
     session_start();
+  
+
+    $now = time();
+    if($now > $_SESSION['expire']) {
+        session_destroy();
+        echo "Su sesión ha terminado";
+        exit;
+    }
     if ( isset($_SESSION['logged'],$_SESSION['type'], $_GET['op']) && $_SESSION['logged']==true && $_SESSION['type']=="CLIENTE") {
         $c=new Client($_SESSION['user'],$_SESSION['pass']);
         if($c->isLogged){
@@ -22,10 +28,13 @@
                 break;
                 case 6: echo json_encode($c->getCard());
                 break;
+                case 7: unset($_SESSION['user']);
+                        session_destroy();
+                        echo "Sesión cerrada exitosamente";
             }
         }
     }else{
-        echo "Favor de iniciar sesión como cliente";
+    echo "Actualmente es: ".$_SESSION['type'].". Debe de iniciar sesión como cliente";
     }
 
 ?>
