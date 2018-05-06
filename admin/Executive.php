@@ -3,7 +3,7 @@
         protected $isExecutive=True;
         public function __construct($user,$pass){
             $res=$this->Login($user,$pass);
-            if(!$res || $res['tipo']!="EJECUTIVO"){
+            if(!$res || $res['tipo']!="EJECUTIVO" || !$this->isLogged){
                 echo "No tiene permiso de Ejecutivo";
                 $this->isExecutive=false;
             }else{
@@ -47,8 +47,7 @@
         public function editUser($user,$password,$mail,$address,$newPass=null){
             if($this->isExecutive){    
                 $c=new Client($user,$password);
-                $id= $c->getId();
-                if($id){
+                if($c->isLogged){
                     $con= new PDORepository;
                     $con->queryList("UPDATE usuario SET correo= :mail, direccion= :address WHERE id_usuario=:id and tipo='CLIENTE'",
                     array('mail'=>$mail,'address'=>$address,'id'=>$id));
@@ -64,19 +63,53 @@
                 return "No tiene permisos para esta operación";
             }
         }
+        // user and password of the client
         public function desactivateUser($user,$password){
-            $con=new PDORepository;
-            $c= new Client($user,$password);
-            $id= $c->getId();
-            $account=$c->getAccountNumber();
-            $card=$c->getCard()['Number'];
-            echo $card;
-            
-            $con ->queryList("UPDATE usuario SET estatus='INACTIVO' WHERE id_usuario=:id and TIPO='CLIENTE'",array('id'=>$id));
-            $this->desactivateCard($card);
-            $this->desactivateAccount($account);
+            if ($this->isExecutive)
+            {
+                $con=new PDORepository;
+                $c= new Client($user,$password);
+                if($c->isLogged){
+                    $id= $c->getId();
+                    $account=$c->getAccountNumber();
+                    $card=$c->getCard()['Number'];
+                    $con ->queryList("UPDATE usuario SET estatus='INACTIVO' WHERE id_usuario=:id and TIPO='CLIENTE'",array('id'=>$id));
+                    $this->desactivateCard($card);
+                    $this->desactivateAccount($account);
+                }
+                else{
+                    return "Información de usuario no encontrada";
+                }
+            }
+            else{
+                return "No tiene permisos para esta operación";
+            }
+        }
+        // user and password of the client
+        public function changeCard($user,$password,$newpin){
+            if($this->isExecutive){
+                $con=new PDORepository;
+                $c= new Client($user,$password);
+                if($c->isLogged)
+                {
+                    $cardNumber=$c->getCard()['Number'];
+                    $accountNumber=$c->getAccountNumber();
+                    
+                    $con-> queryList("UPDATE tarjeta SET estatus='INACTIVO' WHERE numero=:card",
+                        array('card'=>$cardNumber));
+    
+                    $this->assignCard($newpin,$accountNumber);
+                }
+                else{
+                    return "Información de usuario no encontrada";
+                }
+            }
+            else{
+                return "No tiene permisos para esta operación";
+            }
 
         }
+
         public function desactivateAccount($accountNumber){
             if($this->isExecutive){
                 $con = new PDORepository;
