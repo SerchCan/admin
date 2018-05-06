@@ -50,7 +50,7 @@
                 $id= $c->getId();
                 if($id){
                     $con= new PDORepository;
-                    $con->queryList("UPDATE usuario SET correo= :mail, direccion= :address WHERE id_usuario=:id",
+                    $con->queryList("UPDATE usuario SET correo= :mail, direccion= :address WHERE id_usuario=:id and tipo='CLIENTE'",
                     array('mail'=>$mail,'address'=>$address,'id'=>$id));
                     if($newPass!=null){
                         $con->queryList("UPDATE usuario SET password=:pass WHERE id_usuario=:id",array('pass'=>$newPass, 'id'=>$id));
@@ -62,6 +62,33 @@
             }
             else{
                 return "No tiene permisos para esta operación";
+            }
+        }
+        public function desactivateUser($user,$password){
+            $con=new PDORepository;
+            $c= new Client($user,$password);
+            $id= $c->getId();
+            $account=$c->getAccountNumber();
+            $card=$c->getCard()['Number'];
+            echo $card;
+            
+            $con ->queryList("UPDATE usuario SET estatus='INACTIVO' WHERE id_usuario=:id and TIPO='CLIENTE'",array('id'=>$id));
+            $this->desactivateCard($card);
+            $this->desactivateAccount($account);
+
+        }
+        public function desactivateAccount($accountNumber){
+            if($this->isExecutive){
+                $con = new PDORepository;
+                $con-> queryList("UPDATE cuenta SET estatus='INACTIVA' WHERE numero=:cuenta",
+                    array('cuenta'=>$accountNumber));
+            }
+        }
+        public function desactivateCard($cardNumber){
+            if($this->isExecutive){
+                $con= new PDORepository;
+                $con-> queryList("UPDATE tarjeta SET estatus='INACTIVO' WHERE numero=:card",
+                    array('card'=>$cardNumber));
             }
         }
         // Assign card to a user
