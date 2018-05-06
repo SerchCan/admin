@@ -19,15 +19,15 @@
         public function fill($account){
             
             $con= new PDORepository;
-            $res=$con->queryList("SELECT * FROM tarjeta INNER JOIN cuenta WHERE cuenta.numero=:account",
+            $res=$con->queryList("SELECT tarjeta.numero as numero, tarjeta.pin as pin, tarjeta.codigo_seguridad as cvc, tarjeta.fecha_validez_fin as expiration FROM tarjeta INNER JOIN cuenta WHERE tarjeta.estatus='ACTIVO' AND cuenta.numero=:account AND tarjeta.id_cuenta=cuenta.id_cuenta",
             array('account'=>$account))->fetch();
             
             if($res)
             {
                 $this->number=$res['numero'];
                 $this->pin=$res['pin'];
-                $this->cvc=$res['codigo_seguridad'];
-                $this->exp=$res['fecha_validez_fin'];
+                $this->cvc=$res['cvc'];
+                $this->exp=$res['expiration'];
             }
         }
         // Add card to user
