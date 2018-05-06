@@ -18,8 +18,8 @@
             }
         }
         if(strtoupper($_POST['type'])=="EJECUTIVO"){
-            $c=new Executive($_POST['user'], $_POST['password']);
-            if($c->isLogged){
+            $e=new Executive($_POST['user'], $_POST['password']);
+            if($e->isLogged){
                 session_start();
                 $_SESSION['logged']=true;
                 $_SESSION['user']=$_POST['user'];
@@ -34,8 +34,8 @@
             }
         }
         if(strtoupper($_POST['type'])=="ADMINISTRADOR"){
-            $c=new Admin($_POST['user'], $_POST['password']);
-            if($c->isLogged){
+            $a=new Admin($_POST['user'], $_POST['password']);
+            if($a->isLogged){
                 session_start();
                 $_SESSION['logged']=true;
                 $_SESSION['user']=$_POST['user'];
