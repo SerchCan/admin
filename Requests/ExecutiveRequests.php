@@ -61,7 +61,7 @@ if ( isset($_SESSION['logged'],$_SESSION['type']) && $_SESSION['logged']==true &
                 case 3: 
                 // Desactivate client
                     if(isset($_POST['user'],$_POST['password'])){
-                        $e->desactivateUser($_POST['user'],$_POST['password']);
+                        echo $e->desactivateUser($_POST['user'],$_POST['password']);
                     }
                     else{
                         echo "Faltan credenciales de cliente";
@@ -70,7 +70,7 @@ if ( isset($_SESSION['logged'],$_SESSION['type']) && $_SESSION['logged']==true &
                 case 4:
                 // change card
                     if(isset($_POST['user'],$_POST['password'],$_POST['newpin'])){
-                        $e->changeCard($_POST['user'],$_POST['password'],$_POST['newpin']);
+                        echo $e->changeCard($_POST['user'],$_POST['password'],$_POST['newpin']);
                     }
                     else{
                         echo "Faltan parámetros para cambio de tarjeta";
