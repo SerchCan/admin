@@ -3,7 +3,7 @@
         protected $isExecutive=True;
         public function __construct($user,$pass){
             $res=$this->Login($user,$pass);
-            if(!$res || $res['tipo']!="EJECUTIVO" || !$this->isLogged){
+            if(!$res || $res['tipo']!="EJECUTIVO"){
                 echo "No tiene permiso de Ejecutivo";
                 $this->isExecutive=false;
             }else{
@@ -48,6 +48,7 @@
             if($this->isExecutive){    
                 $c=new Client($user,$password);
                 if($c->isLogged){
+                    $id=$c->getId();
                     $con= new PDORepository;
                     $con->queryList("UPDATE usuario SET correo= :mail, direccion= :address WHERE id_usuario=:id and tipo='CLIENTE'",
                     array('mail'=>$mail,'address'=>$address,'id'=>$id));

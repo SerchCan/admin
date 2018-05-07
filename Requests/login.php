@@ -1,7 +1,7 @@
 <?php
     include_once "../Includes/include.php";
     if(isset($_POST['user'], $_POST['password'],$_POST['type'])){
-        if(strtoupper($_POST['type'])=="CLIENTE"){
+        if(strtoupper($_POST['type'])=='CLIENTE'){
             $c=new Client($_POST['user'], $_POST['password']);
             if($c->isLogged){
                 session_start();
@@ -17,7 +17,7 @@
                 echo "</br>Error en credenciales del usuario";
             }
         }
-        if(strtoupper($_POST['type'])=="EJECUTIVO"){
+        if(strtoupper($_POST['type'])=='EJECUTIVO'){
             $e=new Executive($_POST['user'], $_POST['password']);
             if($e->isLogged){
                 session_start();
@@ -33,7 +33,7 @@
                 echo "</br>Error en credenciales del usuario";
             }
         }
-        if(strtoupper($_POST['type'])=="ADMINISTRADOR"){
+        if(strtoupper($_POST['type'])=='ADMINISTRADOR'){
             $a=new Admin($_POST['user'], $_POST['password']);
             if($a->isLogged){
                 session_start();
