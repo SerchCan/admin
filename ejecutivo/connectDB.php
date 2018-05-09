@@ -1,6 +1,6 @@
 <?php
 $username="root";
 $password="";
-$database="yareli";
+$database="yarelidb";
 $server="localhost";
 ?>
