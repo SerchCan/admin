@@ -11,7 +11,7 @@
                 $_SESSION['type']='CLIENTE';
                 $_SESSION['start']=time();
                 $_SESSION['expire']=$_SESSION['start']+(10*60);
-                echo "Sesion iniciada";
+                echo "Cliente";
             }
             else{
                 echo "</br>Error en credenciales del usuario";
@@ -27,7 +27,7 @@
                 $_SESSION['type']='EJECUTIVO';
                 $_SESSION['start']=time();
                 $_SESSION['expire']=$_SESSION['start']+(10*60);
-                echo "Sesion iniciada";
+                echo "Ejecutivo";
             }
             else{
                 echo "</br>Error en credenciales del usuario";
@@ -43,7 +43,7 @@
                 $_SESSION['type']='ADMINISTRADOR';
                 $_SESSION['start']=time();
                 $_SESSION['expire']=$_SESSION['start']+(10*60);
-                echo "Sesion iniciada";
+                echo "Administrador";
             }
             else{
                 echo "</br>Error en credenciales del usuario";
