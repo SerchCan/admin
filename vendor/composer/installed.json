@@ -1,0 +1,52 @@
+[
+    {
+        "name": "rplansky/credit-card",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/rplansky/credit-card-php.git",
+            "reference": "73e8a9f5d214a958993b2cdc9ecb7c3ea7cd691e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/rplansky/credit-card-php/zipball/73e8a9f5d214a958993b2cdc9ecb7c3ea7cd691e",
+            "reference": "73e8a9f5d214a958993b2cdc9ecb7c3ea7cd691e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "time": "2015-04-12T21:01:56+00:00",
+        "bin": [
+            "bin/ccgenerator",
+            "bin/ccvalidator"
+        ],
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Plansky\\CreditCard": "src/"
+            },
+            "classmap": [
+                "test/Plansky/CreditCard/TestCase.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ricardo Plansky",
+                "homepage": "http://www.rplansky.com"
+            }
+        ],
+        "description": "Simple package to generate and validate credit card numbers in PHP",
+        "keywords": [
+            "credit-card",
+            "helper",
+            "validator"
+        ]
+    }
+]

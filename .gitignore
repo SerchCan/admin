@@ -1,3 +1,4 @@
-vendor/
-composer.lock
 /admin/Test.php
+/Requests/request.php
+/exclude/*
+/Usage/*
