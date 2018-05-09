@@ -116,7 +116,12 @@
                         echo "Falta información para creación del usuario";
                     }
                     break;
-                    default: 
+                    case 8: unset($_SESSION['user']);
+                            session_destroy();
+                            echo "Sesión cerrada exitosamente";
+                    break;
+                    default:
+                        echo "Operación no permitida";
                     break;
                 }
 
