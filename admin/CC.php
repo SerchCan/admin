@@ -34,13 +34,18 @@
         public function addToUser($account){
             $con= new PDORepository;
             $cuenta=$con
-                ->queryList("SELECT id_cuenta from cuenta WHERE numero=:cuenta",array("cuenta"=>$account))
+                ->queryList("SELECT id_cuenta from cuenta WHERE cuenta.numero=:cuenta",array('cuenta'=>$account))
                 ->fetch(PDO::FETCH_ASSOC);
-            $con
+            if($cuenta){
+                $con
                 ->queryList("INSERT INTO tarjeta(numero,pin,codigo_seguridad,fecha_validez_inicio,fecha_validez_fin,estatus,id_cuenta) 
                             VALUES(:number,:pin,:cvc,DATE_FORMAT(CURRENT_TIMESTAMP(), '%Y-%m-00') ,:date,'ACTIVO',:id)",
                 array('number'=>$this->number,'pin'=>$this->pin,'cvc'=>$this->cvc,'date'=>$this->exp,'id'=>$cuenta['id_cuenta']));
-            return;
+                return;
+            }
+            else{
+                echo "Error en generación de cuenta";
+            }
         }
         // Get card data
         public function getCard(){

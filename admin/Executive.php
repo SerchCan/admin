@@ -29,6 +29,7 @@
                 
                     $id = $this->getLastInsert();
                     $accountNumber = $this->generateAccount($password,$curp,$idPais);
+
                     $CreateAccount=$con
                         ->queryList('INSERT INTO cuenta(numero,balance,detalles,fecha_alta,estatus,tipo,id_usuario)
                                         VALUES (:acnumber,:balance,:details, CURRENT_TIMESTAMP(), "ACTIVA", :tipo, :id)',
@@ -151,7 +152,8 @@
             if($this->isExecutive){
                 //                  country           EP(EdisonPay) CURP      PASSWORD
                 $accountNumber = sprintf("%02d", $idPais)."6980".ord($curp).ord($password);
-                return $accountNumber;
+                $account=substr($accountNumber,0,10);
+                return $account;
             }
             else{
                 return "No tiene permisos para esta operación";
