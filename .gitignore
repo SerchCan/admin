@@ -2,3 +2,9 @@
 /Requests/request.php
 /exclude/
 /Usage/
+/AdminLogin/*
+/imgs/*
+/style/*
+/Conection/index.php
+/admin/index.php
+/cliente/tcpdf/*
