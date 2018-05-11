@@ -9,7 +9,10 @@ class DbHandler {
         $db = new DbConnect();
         $this->conn = $db->connect();
     }
-
+    function validateDate($date, $format = 'Y-m-d'){
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
     /**
      * Getting results from query
      * @param Statement $Statement Esxceuted statement
@@ -102,7 +105,32 @@ class DbHandler {
             WHEN tipo = \"DEPOSITO\" THEN monto * 1
                 ELSE monto * -1
             END AS monto
-            FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM usuario WHERE id_usuario = ?) ORDER BY fecha");
+            FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM tarjeta WHERE id_cuenta IN
+                (SELECT id_cuenta FROM cuenta WHERE id_usuario = ?)) ORDER BY fecha");
+        $stmt->bind_param("s", $id_usuario);
+        // print_r($stmt);
+        if ($stmt->execute()) {
+            $movements = $this->get_result($stmt);//->fetch_assoc();
+            $stmt->close();
+            return $movements;
+        } else {
+            return NULL;
+        }
+    }
+
+    /**
+     * Getting user's movements
+     * @param String $id User ID
+     * @return Array $movements User's movements
+     */
+    public function getM($id_usuario) {
+        // echo $id_usuario;
+        $stmt = $this->conn->prepare("SELECT *, CASE
+            WHEN tipo = \"DEPOSITO\" THEN monto * 1
+                ELSE monto * -1
+            END AS monto
+            FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM tarjeta WHERE id_cuenta IN
+                (SELECT id_cuenta FROM cuenta WHERE id_usuario = ?)) ORDER BY fecha");
         $stmt->bind_param("s", $id_usuario);
         // print_r($stmt);
         if ($stmt->execute()) {
@@ -128,8 +156,10 @@ class DbHandler {
         $stmt = $this->conn->prepare("SELECT *, CASE
             WHEN tipo = \"DEPOSITO\" THEN monto * 1
                 ELSE monto * -1
-            END AS monto
-            FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM usuario WHERE id_usuario = ?) AND fecha >= ? AND fecha < ? + INTERVAL 1 MONTH
+            END AS monto,
+            DATE(fecha) AS fecha
+            FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM tarjeta WHERE id_cuenta IN
+                (SELECT id_cuenta FROM cuenta WHERE id_usuario = ?)) AND fecha > ? - INTERVAL 1 MONTH AND fecha <= ?
             ORDER BY fecha");
         $stmt->bind_param("sss", $id_usuario,$mes,$mes);
         // print_r($stmt);
@@ -154,7 +184,8 @@ class DbHandler {
                 WHEN tipo = \"DEPOSITO\" THEN 1
                 ELSE -1
             END
-        )) AS total FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM usuario WHERE id_usuario = ?) GROUP BY tipo WITH ROLLUP");
+        )) AS total FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM tarjeta WHERE id_cuenta IN
+                (SELECT id_cuenta FROM cuenta WHERE id_usuario = ?)) GROUP BY tipo WITH ROLLUP");
         $stmt->bind_param("s", $id_usuario);
         // print_r($stmt);
         if ($stmt->execute()) {
@@ -181,7 +212,8 @@ class DbHandler {
                 WHEN tipo = \"DEPOSITO\" THEN 1
                 ELSE -1
             END
-        )) AS total FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM usuario WHERE id_usuario = ?) AND fecha >= ? AND fecha < ? + INTERVAL 1 MONTH GROUP BY tipo WITH ROLLUP");
+        )) AS total FROM transaccion WHERE id_tarjeta IN (SELECT id_tarjeta FROM tarjeta WHERE id_cuenta IN
+                (SELECT id_cuenta FROM cuenta WHERE id_usuario = ?)) AND fecha > ? - INTERVAL 1 MONTH AND fecha <= ? GROUP BY tipo WITH ROLLUP");
         $stmt->bind_param("sss", $id_usuario,$mes,$mes);
         // print_r($stmt);
         if ($stmt->execute()) {
@@ -235,7 +267,7 @@ class DbHandler {
      * @return Array $data User's data
     */
     public function getDatabyID($id_usuario) {
-        $stmt = $this->conn->prepare("SELECT nombre, rfc, tipo FROM usuario WHERE id_usuario = ?");
+        $stmt = $this->conn->prepare("SELECT nombre, direccion, rfc, tipo FROM usuario WHERE id_usuario = ?");
         $stmt->bind_param("s", $id_usuario);
         // print_r($stmt);
         if ($stmt->execute()) {
@@ -259,10 +291,17 @@ class DbHandler {
         // print_r($stmt);
         $res = array();
         // echo($this->getDateCreated($id_usuario)[0]["dia_corte"]);
-        $res["dia_corte"] = $this->getDateCreated($id)[0]["dia_corte"];
+        $corte = $this->getDateCreated($id)[0]["dia_corte"];
+        $corteaux = $mes.'-'.$corte;
+        if (!$this->validateDate($corteaux)) {
+            $corteaux = substr($corteaux,0,-3);
+            $a_date = date("Y-m-t", strtotime($corteaux));
+            $corte = substr($a_date,-2,2);
+        }
+        $res["fecha_corte"] = $mes.'-'.$corte;
         $res["numero_cuenta"] = $this->getAccountNumber($id)[0]["numero"];
         $res["datos_usuario"] = $this->getDatabyID($id);
-        $corte = $res["dia_corte"];
+        // $corte = $res["fecha_corte"];
         // echo $res["dia_corte"][1];
         // print_r($res["dia_corte"]);
         // echo($res["dia_corte"][0]["dia_corte"]);
@@ -285,4 +324,4 @@ class DbHandler {
     }
 }
 
-?>  
+?>

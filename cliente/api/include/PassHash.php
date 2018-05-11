@@ -1,4 +1,4 @@
-<?php
+    <?php
 /*
 $pass = password_hash($_POST[password],PASSWORD_DEFAULT, [15]);
 password_verify($_POST[password], $password);

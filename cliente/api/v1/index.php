@@ -73,7 +73,7 @@ $app->map('/:id/movimientos', function($id_usuario) use ($app) {
         $username = $app->request()->post('id_usuario');
     }
     $db = new DbHandler();
-    $movimientos = $db->getMovements($id_usuario);
+    $movimientos = $db->getMovements($username);
 
     if($movimientos != NULL){
         $response["error"] = false;
@@ -95,7 +95,7 @@ $app->map('/:id/saldo', function($id_usuario) use ($app) {
         $username = $app->request()->post('id_usuario');
     }
     $db = new DbHandler();
-    $saldo = $db->getBalance($id_usuario);
+    $saldo = $db->getBalance($username);
 
     if($saldo != NULL){
         $response["error"] = false;
@@ -174,7 +174,6 @@ function generateRes($status_code, $response) {
     $response = utf8_encode_all($response);
     echo json_encode($response,JSON_PRETTY_PRINT);
 }
-
 
 /**
  * Encondig response to UTF-8
