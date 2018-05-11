@@ -9,12 +9,11 @@ header('Content-type: application/json; charset=UTF-8');
 header('P3P: CP="IDC DSP COR CURa ADMa OUR IND PHY ONL COM STA"'); 
 
 require_once '../include/DbHandler.php';
-require_once '../include/PassHash.php';
 require '../libs/Slim/Slim.php';
  
 \Slim\Slim::registerAutoloader();
  
-$app = new \Slim\Slim();
+$app = new \Slim\Slim();    
 
 $app->map('/:id/upcard', function($id_usuario) use ($app) {
     $response = array();
