@@ -14,7 +14,7 @@
                 echo "Cliente";
             }
             else{
-                echo "</br>Error en credenciales del usuario";
+                echo "Error en credenciales del usuario";
             }
         }
         if(strtoupper($_POST['type'])=='EJECUTIVO'){
@@ -30,7 +30,7 @@
                 echo "Ejecutivo";
             }
             else{
-                echo "</br>Error en credenciales del usuario";
+                echo "Error en credenciales del usuario";
             }
         }
         if(strtoupper($_POST['type'])=='ADMINISTRADOR'){
@@ -46,7 +46,7 @@
                 echo "Administrador";
             }
             else{
-                echo "</br>Error en credenciales del usuario";
+                echo "Error en credenciales del usuario";
             }
         }        
     }

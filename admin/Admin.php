@@ -111,5 +111,15 @@
                 return json_encode($List);
             }
         }
+        public function CreateCashier($id){
+            if($this->isAdmin){
+                $con=new PDORepository;
+                $con-> queryList("INSERT INTO caja(estatus,fecha_alta,id_usuario_asignado) VALUES(ACTIVO,CURRENT_TIMESTAMP(),:id",
+                array('id'=>$id));
+            }
+            else{
+                return "No tiene permisos para esta operación";
+            }
+        }
     }
 ?>

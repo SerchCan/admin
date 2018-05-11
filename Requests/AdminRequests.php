@@ -116,7 +116,10 @@
                         echo "Falta información para creación del usuario";
                     }
                     break;
-                    case 8: unset($_SESSION['user']);
+                    case 8:
+                    break;
+                    case 9: unset($_SESSION['user']);
+                            unset($_SESSION['password']);
                             session_destroy();
                             echo "Sesión cerrada exitosamente";
                     break;
