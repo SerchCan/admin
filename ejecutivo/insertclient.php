@@ -22,7 +22,7 @@ if (!$conn) {
 }
 
 $sql = sprintf("INSERT INTO usuario (id_usuario,nombre,correo,username,password,estatus,tipo,fecha_alta,direccion,sexo,rfc,curp,usuario_alta,id_pais)
-VALUES ('".$id_usuario."','".$nombre."','".$correo."','".$username."','".$estatus."','".$tipo."',CAST('". $fecha_validez_fin ."' AS DATE),".$direccion."','".$sexo."','".$rfc."','".$curp."','".$usuario_alta."','".$id_pais."')";
+VALUES ('".$id_usuario."','".$nombre."','".$correo."','".$username."','".$estatus."','".$tipo."',CAST('". $fecha_validez_fin ."' AS DATE),'".$direccion."','".$sexo."','".$rfc."','".$curp."','".$usuario_alta."','".$id_pais."')");
 
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
