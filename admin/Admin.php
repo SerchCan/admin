@@ -114,8 +114,16 @@
         public function CreateCashier($id){
             if($this->isAdmin){
                 $con=new PDORepository;
-                $con-> queryList("INSERT INTO caja(estatus,fecha_alta,id_usuario_asignado) VALUES(ACTIVO,CURRENT_TIMESTAMP(),:id",
-                array('id'=>$id));
+                $tipo=$con
+                ->queryList("SELECT tipo FROM usuario WHERE id_usuario=:id",array('id'=>$id))
+                ->fetch(PDO::FETCH_ASSOC);
+                $tipo=strtoupper($tipo['tipo']);
+                if($tipo=="ADMINISTRADOR" || $tipo == "EJECUTIVO"){
+                    $con-> 
+                        queryList('INSERT INTO caja (estatus, fecha_alta, id_usuario_asignado) VALUES("ACTIVO", CURRENT_TIMESTAMP(), :id)',array('id'=>$id));
+                }else{
+                    echo "El usuario no puede ser cajero";
+                }
             }
             else{
                 return "No tiene permisos para esta operación";

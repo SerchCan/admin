@@ -117,6 +117,12 @@
                     }
                     break;
                     case 8:
+                        if(isset($_POST['id'])){
+                            $a->CreateCashier($_POST['id']);
+                        }
+                        else{
+                            echo "Falta id de cajero";
+                        }
                     break;
                     case 9: unset($_SESSION['user']);
                             unset($_SESSION['password']);
